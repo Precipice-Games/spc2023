@@ -1,0 +1,124 @@
+[gd_scene load_steps=11 format=3 uid="uid://bvh1vb8y15pgp"]
+
+[ext_resource type="Texture2D" uid="uid://b72xlddrhhqen" path="res://sprites/Tappy Plane/background.png" id="1_hooke"]
+[ext_resource type="Script" path="res://scripts/Scoreboard.gd" id="1_mq5uu"]
+[ext_resource type="Texture2D" uid="uid://b4j8rg0e0sg3l" path="res://sprites/Tappy Plane/Planes/planeBlue1.png" id="1_psqsf"]
+[ext_resource type="Script" path="res://scripts/Collectibles.gd" id="2_14lvl"]
+[ext_resource type="Texture2D" uid="uid://bfen8wdmt1ba1" path="res://sprites/Tappy Plane/groundDirt.png" id="2_pu07t"]
+[ext_resource type="Script" path="res://scripts/BluePlane.gd" id="2_ubqnf"]
+[ext_resource type="PackedScene" uid="uid://p836ieb5svuy" path="res://prefabs/collectibles/Star.tscn" id="2_v82wp"]
+[ext_resource type="Script" path="res://scripts/Obstacles.gd" id="3_eecef"]
+[ext_resource type="PackedScene" uid="uid://cvk1r6vl5m8hk" path="res://prefabs/obstacles/Rock.tscn" id="5_hwcfl"]
+[ext_resource type="PackedScene" uid="uid://byv6j82gvedhn" path="res://prefabs/obstacles/MossyRock.tscn" id="5_t4s00"]
+
+[node name="Level" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="Scoreboard" type="RichTextLabel" parent="HUD"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 136.0
+offset_bottom = 41.0
+scale = Vector2(2, 2)
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Score: 0"
+script = ExtResource("1_mq5uu")
+
+[node name="Collectibles" type="CanvasLayer" parent="."]
+layer = 3
+script = ExtResource("2_14lvl")
+rewards = Array[PackedScene]([ExtResource("2_v82wp")])
+
+[node name="Star" parent="Collectibles" instance=ExtResource("2_v82wp")]
+position = Vector2(1024, 330)
+
+[node name="Main" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="BluePlane" type="Area2D" parent="Main"]
+position = Vector2(576, 324)
+script = ExtResource("2_ubqnf")
+
+[node name="Shape" type="CollisionPolygon2D" parent="Main/BluePlane"]
+polygon = PackedVector2Array(40, 30, 40, 0, 35, -20, 25, -35, -20, -35, -40, -20, -30, 10, -20, 25, 5, 30)
+
+[node name="Sprite" type="Sprite2D" parent="Main/BluePlane"]
+texture = ExtResource("1_psqsf")
+
+[node name="Obstacles" type="CanvasLayer" parent="."]
+script = ExtResource("3_eecef")
+obstacles = Array[PackedScene]([ExtResource("5_hwcfl"), ExtResource("5_t4s00")])
+
+[node name="GroundDirt" type="Area2D" parent="Obstacles"]
+z_index = 1
+position = Vector2(0, 648)
+metadata/_edit_group_ = true
+
+[node name="Shape" type="CollisionPolygon2D" parent="Obstacles/GroundDirt"]
+polygon = PackedVector2Array(0, 0, 808, 0, 808, -36, 764, -45, 744, -71, 658, -68, 636, -48, 598, -44, 572, -16, 534, -16, 509, -27, 470, -27, 436, -59, 374, -59, 350, -44, 307, -44, 249, -67, 157, -63, 135, -38, 89.4963, -25.1916, 42, -29, 34, -37, 0, -35)
+
+[node name="Sprite" type="Sprite2D" parent="Obstacles/GroundDirt"]
+texture = ExtResource("2_pu07t")
+centered = false
+offset = Vector2(0, -71)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Obstacles/GroundDirt"]
+rect = Rect2(0, -10, 808, 10)
+
+[node name="GroundDirt2" type="Area2D" parent="Obstacles"]
+z_index = 1
+position = Vector2(808, 648)
+metadata/_edit_group_ = true
+
+[node name="Shape" type="CollisionPolygon2D" parent="Obstacles/GroundDirt2"]
+polygon = PackedVector2Array(0, 0, 808, 0, 808, -36, 764, -45, 744, -71, 658, -68, 636, -48, 598, -44, 572, -16, 534, -16, 509, -27, 470, -27, 436, -59, 374, -59, 350, -44, 307, -44, 249, -67, 157, -63, 135, -38, 89.4963, -25.1916, 42, -29, 34, -37, 0, -35)
+
+[node name="Sprite" type="Sprite2D" parent="Obstacles/GroundDirt2"]
+texture = ExtResource("2_pu07t")
+centered = false
+offset = Vector2(0, -71)
+metadata/_edit_group_ = true
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Obstacles/GroundDirt2"]
+rect = Rect2(0, -10, 808, 10)
+
+[node name="GroundDirt3" type="Area2D" parent="Obstacles"]
+z_index = 1
+position = Vector2(1616, 648)
+metadata/_edit_group_ = true
+
+[node name="Shape" type="CollisionPolygon2D" parent="Obstacles/GroundDirt3"]
+polygon = PackedVector2Array(0, 0, 808, 0, 808, -36, 764, -45, 744, -71, 658, -68, 636, -48, 598, -44, 572, -16, 534, -16, 509, -27, 470, -27, 436, -59, 374, -59, 350, -44, 307, -44, 249, -67, 157, -63, 135, -38, 89.4963, -25.1916, 42, -29, 34, -37, 0, -35)
+
+[node name="Sprite" type="Sprite2D" parent="Obstacles/GroundDirt3"]
+texture = ExtResource("2_pu07t")
+centered = false
+offset = Vector2(0, -71)
+metadata/_edit_group_ = true
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Obstacles/GroundDirt3"]
+rect = Rect2(0, -10, 808, 10)
+
+[node name="Rock" parent="Obstacles" instance=ExtResource("5_hwcfl")]
+position = Vector2(384, 640)
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_hooke")
+metadata/_edit_lock_ = true
+
+[connection signal="area_entered" from="Main/BluePlane" to="Main/BluePlane" method="_on_area_2d_area_entered"]
+[connection signal="crashed" from="Main/BluePlane" to="Collectibles" method="_on_plane_crashed"]
+[connection signal="crashed" from="Main/BluePlane" to="Obstacles" method="_on_plane_crashed"]
+[connection signal="scored" from="Main/BluePlane" to="HUD/Scoreboard" method="_on_plane_scored"]

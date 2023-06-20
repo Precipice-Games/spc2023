@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://byv6j82gvedhn"]
+
+[ext_resource type="Texture2D" uid="uid://b4egvmvqfk6k" path="res://sprites/Tappy Plane/rockGrass.png" id="1_s6353"]
+
+[node name="MossyRock" type="Area2D"]
+position = Vector2(0, 648)
+metadata/_edit_group_ = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_s6353")
+centered = false
+offset = Vector2(0, -239)
+
+[node name="Shape" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(59, -223, 72, -223, 82, -137, 87, -136, 95, -65, 100, -62, 108, -1, 0, -1, 29, -109, 36, -115)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(0, -10, 108, 10)

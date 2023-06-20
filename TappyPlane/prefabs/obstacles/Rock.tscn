@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvk1r6vl5m8hk"]
+
+[ext_resource type="Texture2D" uid="uid://b3vfjb8bvmm3i" path="res://sprites/Tappy Plane/rock.png" id="1_1upxa"]
+
+[node name="Rock" type="Area2D"]
+position = Vector2(0, 649)
+metadata/_edit_group_ = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_1upxa")
+centered = false
+offset = Vector2(0, -239)
+
+[node name="Shape" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(59, -224, 72, -224, 82, -137, 87, -136, 95, -65, 100, -62, 108, -1, 0, -1, 29, -109, 36, -115)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(0, -240, 108, 240)

@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://p836ieb5svuy"]
+
+[ext_resource type="Texture2D" uid="uid://b7rs4rncmuq6d" path="res://sprites/Tappy Plane/starGold.png" id="1_q4v5u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jlttt"]
+radius = 12.0
+
+[node name="Star" type="Area2D"]
+position = Vector2(0, 648)
+metadata/_edit_group_ = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_q4v5u")
+centered = false
+offset = Vector2(0, -38)
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+position = Vector2(19, -18)
+shape = SubResource("CircleShape2D_jlttt")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(0, -38, 39, 38)
