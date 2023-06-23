@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2sjw1cvhukd6"]
+
+[ext_resource type="Script" path="res://Scenes/edge_checker.gd" id="1_e4yab"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n1eq2"]
+size = Vector2(32, 32)
+
+[node name="EdgeChecker" type="Area2D"]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_e4yab")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_n1eq2")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

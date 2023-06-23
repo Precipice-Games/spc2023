@@ -1,0 +1,77 @@
+[gd_scene load_steps=10 format=3 uid="uid://cfqh3iwotr355"]
+
+[ext_resource type="Script" path="res://Scenes/enemy.gd" id="1_77euk"]
+[ext_resource type="Texture2D" uid="uid://b4dxn1p2fd44e" path="res://Assets/PNG/Enemies/enemyWalking_4.png" id="1_qd7yv"]
+[ext_resource type="Texture2D" uid="uid://bx2owtmo6kmtk" path="res://Assets/PNG/Enemies/enemyWalking_1.png" id="2_6bwfd"]
+[ext_resource type="Texture2D" uid="uid://2v4voi628pw1" path="res://Assets/PNG/Enemies/enemyWalking_2.png" id="3_7ea2l"]
+[ext_resource type="Texture2D" uid="uid://htmcu21kuy8p" path="res://Assets/PNG/Enemies/enemyWalking_3.png" id="4_8goja"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_psfx3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_qd7yv")
+}],
+"loop": false,
+"name": &"Death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_6bwfd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_7ea2l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_8goja")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fi4wt"]
+size = Vector2(28, 31)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dcrns"]
+size = Vector2(23, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hmcgw"]
+size = Vector2(38, 20)
+
+[node name="Enemy" type="CharacterBody2D" groups=["Enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_77euk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_psfx3")
+animation = &"Death"
+flip_h = true
+
+[node name="Body" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5.5)
+shape = SubResource("RectangleShape2D_fi4wt")
+
+[node name="head check" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="Head" type="CollisionShape2D" parent="head check"]
+position = Vector2(-0.5, -20)
+shape = SubResource("RectangleShape2D_dcrns")
+
+[node name="side check" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="side check"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_hmcgw")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="body_entered" from="head check" to="." method="_on_head_check_body_entered"]
+[connection signal="body_entered" from="side check" to="." method="_on_side_check_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

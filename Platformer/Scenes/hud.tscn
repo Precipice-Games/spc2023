@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://db0yjbunt2xpl"]
+
+[ext_resource type="Script" path="res://Scenes/hud.gd" id="1_cqmtr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kqg6t"]
+bg_color = Color(0, 0, 0, 0.494118)
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_cqmtr")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 88.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kqg6t")
+
+[node name="ScoreText" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 80.0
+offset_bottom = 31.0
+text = "Score:"
+
+[node name="Score" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 8.0
+offset_right = 80.0
+offset_bottom = 31.0
