@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://f5s04o55mqna"]
+[gd_scene load_steps=11 format=3 uid="uid://f5s04o55mqna"]
 
 [ext_resource type="Script" path="res://Scenes/player.gd" id="1_ame2y"]
 [ext_resource type="Texture2D" uid="uid://b3h4ypevkw8ah" path="res://Assets/PNG/Players/Player Blue/playerBlue_stand.png" id="1_vyo6x"]
+[ext_resource type="Texture2D" uid="uid://bx2tcvqiqdycd" path="res://Assets/PNG/Players/Player Blue/playerBlue_fall.png" id="2_6cwqj"]
 [ext_resource type="Texture2D" uid="uid://67nphtslh360" path="res://Assets/PNG/Players/Player Blue/playerBlue_up1.png" id="3_3cfh1"]
 [ext_resource type="Texture2D" uid="uid://pmjtarxr4uy8" path="res://Assets/PNG/Players/Player Blue/playerBlue_up2.png" id="4_ds8s1"]
 [ext_resource type="Texture2D" uid="uid://q0y80y6dtfhy" path="res://Assets/PNG/Players/Player Blue/playerBlue_walk1.png" id="5_l3oj3"]
@@ -10,6 +11,14 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ghd8k"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_6cwqj")
+}],
+"loop": true,
+"name": &"Fall",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_vyo6x")
@@ -25,7 +34,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("4_ds8s1")
 }],
-"loop": true,
+"loop": false,
 "name": &"Jump",
 "speed": 5.0
 }, {
@@ -48,16 +57,19 @@ animations = [{
 radius = 17.0
 height = 54.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 7
 script = ExtResource("1_ame2y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ghd8k")
-animation = &"Walking"
+animation = &"Jump"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_1nmlp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.7, 1.7)
+
+[connection signal="landed" from="." to="." method="_on_landed"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="jump_finished"]

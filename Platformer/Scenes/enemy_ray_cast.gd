@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var direction = 1
 @export var WALK_SPEED = 65
 
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -10,12 +11,25 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func _ready():
 	#Checks if the sprite should be flipped or not at the start
 	if direction == 1:
-		$AnimatedSprite2D.flip_h = true
-	else:
 		$AnimatedSprite2D.flip_h = false
+	else:
+		$AnimatedSprite2D.flip_h = true
+	
+	#Find the extents of the collision shape and the x position of the raycast
+	$RayCast.position.x = $CollisionShape2D.shape.get_size().x * direction
 	
 
 func _physics_process(delta):
+	
+	#Wall Direction
+	if is_on_wall() or (not $RayCast.is_colliding() and is_on_floor()): 
+		print("change direction!")
+		direction = direction * -1
+		$AnimatedSprite2D.flip_h = not $AnimatedSprite2D.flip_h
+		$RayCast.position.x = $CollisionShape2D.shape.get_size().x * direction
+		#velocity.x = WALK_SPEED * direction
+	
+	
 	
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -24,18 +38,15 @@ func _physics_process(delta):
 	
 	#Could write it simply like this
 	if direction == 1:
-		velocity.x = WALK_SPEED * -1
+		velocity.x = WALK_SPEED
 		$AnimatedSprite2D.play("Walking")
 	elif direction == -1:
-		velocity.x = WALK_SPEED
+		velocity.x = WALK_SPEED * -1
 		$AnimatedSprite2D.play("Walking")
 	
 	#You can write it this way as well
 	#velocity.x = 40 * direction 
 	
-	#Wall Direction
-	if is_on_wall():
-		direction = direction * -1
 	
 	
 	move_and_slide()
