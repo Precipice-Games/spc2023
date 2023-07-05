@@ -1,52 +1,53 @@
 extends CharacterBody2D
 
 @export var direction = 1
-@export var FLY_SPEED = 65
 
-@onready var player = get_tree().get_root().get_node("res://Scenes/player.tscn")
+## Speed of enemy while attacking (in pixels/sec)
+@export var ATTACK_SPEED = 150
+## Speed of enemy while patrolling (in pixels/sec)
+@export var PATROL_SPEED = 75
+
+@export var player:CharacterBody2D
 
 enum State {PATROL, ATTACK}
 
 var state = State.PATROL
 
 
-func ready():
+func _ready():
 	#Checks if the sprite should be flipped or not at the start
+	if not player:
+		player = $Player
 	if direction == 1:
 		$AnimatedSprite2D.flip_h = false
 	else:
 		$AnimatedSprite2D.flip_h = true
+	$AnimatedSprite2D.play("Flying")
 
 
 func _physics_process(delta):
+	if is_player_in_line_of_sight():
+		state = State.ATTACK
+	else:
+		state = State.PATROL
+
 	match state:
 		State.PATROL:
-			velocity.x += 30
-			if direction == 1:
-				velocity.x = FLY_SPEED
-				$AnimatedSprite2D.play("Flying")
-			elif direction == -1:
-				velocity.x = FLY_SPEED * -1
-				$AnimatedSprite2D.play("Flying")
-			if $PlayerDetector.is_colliding():
-				var collider = $PlayerDetector.get_collider()
-				if collider.is_in_group("Player"):
-					player = collider
-					state = State.ATTACK
-					
+			$AnimatedSprite2D.speed_scale = 1
+			velocity = Vector2.RIGHT if direction == 1 else Vector2.LEFT
+			velocity *= PATROL_SPEED
 		State.ATTACK:
-			var collider = $PlayerDetector.get_collider()
-			#if not colliding or first collider is not player then switch back to PATROL
-			if not $PlayerDetector.is_colliding() or collider.is_in_group("Player"):
-				state = State.PATROL
-			var motion = Vector2.ZERO
-			motion += position.direction_to(player.position)
-			velocity = motion 
-					
-					
+			$AnimatedSprite2D.speed_scale = ATTACK_SPEED / PATROL_SPEED
+			velocity = $PlayerDetector.target_position.normalized()
+			velocity *= ATTACK_SPEED
+
+	move_and_slide()
+
 
 func _on_turn_around_timer_timeout():
-	if direction == 1:
-		direction *= -1
-	elif direction == -1:
-		direction *= 1
+	direction *= -1
+
+
+func is_player_in_line_of_sight():
+	$PlayerDetector.target_position = player.position - position
+	return not $PlayerDetector.is_colliding()

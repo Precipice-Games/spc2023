@@ -86,8 +86,9 @@ position = Vector2(1312, 544)
 [node name="Pickup2" parent="Pickups" instance=ExtResource("6_g6nvv")]
 position = Vector2(1328, -232)
 
-[node name="FlyingEnemy" parent="." instance=ExtResource("10_n00uh")]
+[node name="FlyingEnemy" parent="." node_paths=PackedStringArray("player") instance=ExtResource("10_n00uh")]
 position = Vector2(1168, 488)
+player = NodePath("../Player")
 
 [connection signal="body_entered" from="EdgeCheckers/EdgeChecker" to="Enemies/Enemy" method="_on_edge_body_entered"]
 [connection signal="body_entered" from="EdgeCheckers/EdgeChecker2" to="Enemies/Enemy" method="_on_edge_body_entered"]
